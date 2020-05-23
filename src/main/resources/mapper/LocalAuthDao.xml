@@ -22,7 +22,7 @@
 			<result column="enable_status" property="enableStatus" />
 		</association>
 	</resultMap>
-	<select id="queryLocalByUserNameAndPwd" resultMap="localAuthResultMap"
+	<select id="queryLocalByUserName" resultMap="localAuthResultMap"
 		parameterType="String">
 		SELECT
 		l.local_auth_id,
@@ -48,11 +48,41 @@
 		=
 		p.user_id
 		WHERE
-		l.username =
-		#{username}
-		AND
-		l.password = #{password}
+		username =#{username}
 	</select>
+
+	<select id="queryLocalByUserNameAndPwd" resultMap="localAuthResultMap"
+			parameterType="String">
+		SELECT
+			l.local_auth_id,
+			l.username,
+			l.password,
+			l.create_time,
+			l.last_edit_time,
+			p.user_id,
+			p.name,
+			p.gender,
+			p.email,
+			p.profile_img,
+			p.user_type,
+			p.create_time,
+			p.last_edit_time,
+			p.enable_status
+		FROM
+			tb_local_auth l
+				LEFT
+					JOIN
+			tb_person_info
+				p ON l.user_id
+				=
+					 p.user_id
+		WHERE
+				l.username =
+				#{username}
+		  AND
+			l.password = #{password}
+	</select>
+
 	<select id="queryLocalByUserId" resultMap="localAuthResultMap"
 		parameterType="long">
 		SELECT

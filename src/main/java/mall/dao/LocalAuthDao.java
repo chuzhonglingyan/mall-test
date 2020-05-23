@@ -10,6 +10,16 @@ import java.util.Date;
  * @create 2020-05-07-10:37
  */
 public interface LocalAuthDao {
+
+    /**
+     * 通过帐号和密码查询对应信息，登录用
+     *
+     * @param username
+     * @return
+     */
+    LocalAuth queryLocalByUserName(@Param("username") String username);
+
+
     /**
      * 通过帐号和密码查询对应信息，登录用
      *

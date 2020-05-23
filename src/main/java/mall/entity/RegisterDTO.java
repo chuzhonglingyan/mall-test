@@ -1,18 +1,21 @@
 package mall.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author zy
- * @create 2020-03-27-22:15
+ * @author Administrator
+ * @date 2020-05-23 18:45
+ * @description
  */
-public class PersonInfo {
+public class RegisterDTO implements Serializable {
 
-    private Integer id;
 
-    private Long userId;
 
-    private String name;
+
+    private String userName;
+
+    private String password;
 
     private String profileImg;
 
@@ -34,20 +37,14 @@ public class PersonInfo {
 
     private Date lastEditTime;
 
-    public Long getUserId() {
-        return userId;
+
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getProfileImg() {
@@ -106,11 +103,11 @@ public class PersonInfo {
         this.lastEditTime = lastEditTime;
     }
 
-    public Integer getId() {
-        return id;
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

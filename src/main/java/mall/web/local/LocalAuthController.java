@@ -3,11 +3,14 @@ package mall.web.local;
 import mall.dto.LocalAuthExecution;
 import mall.entity.LocalAuth;
 import mall.entity.PersonInfo;
+import mall.entity.RegisterDTO;
 import mall.enums.LocalAuthStateEnum;
 import mall.exceptions.LocalAuthOperationException;
 import mall.service.LocalAuthService;
 import mall.util.CodeUtil;
 import mall.util.HttpServletRequestUtil;
+import mall.util.SnowIdUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +31,61 @@ import java.util.Map;
 public class LocalAuthController {
     @Autowired
     private LocalAuthService localAuthService;
+
+    /**
+     * 将用户信息与平台帐号绑定
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String, Object> register(HttpServletRequest request, RegisterDTO registerDTO) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        // 验证码校验
+        if (!CodeUtil.checkVerifyCode(request)) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "输入了错误的验证码");
+            return modelMap;
+        }
+        // 获取输入的帐号
+        String userName = registerDTO.getUserName();
+        // 获取输入的密码
+        String password =registerDTO.getPassword();
+        // 非空判断，要求帐号密码以及当前的用户session非空
+        if (userName != null && password != null) {
+            long userId= SnowIdUtils.uniqueLong();
+            // 创建LocalAuth对象并赋值
+            LocalAuth localAuth = new LocalAuth();
+            localAuth.setUsername(userName);
+            localAuth.setPassword(password);
+            localAuth.setUserId(userId);
+
+            PersonInfo user = new PersonInfo();
+            BeanUtils.copyProperties(registerDTO,user);
+            user.setUserId(userId);
+            user.setName(userName);
+            user.setProfileImg("");
+            user.setCreateTime(new Date());
+            user.setLastEditTime(new Date());
+            user.setEnableStatus(1);
+
+            localAuth.setPersonInfo(user);
+            LocalAuthExecution le = localAuthService.register(localAuth);
+            if (le.getState() == LocalAuthStateEnum.SUCCESS.getState()) {
+                modelMap.put("success", true);
+            } else {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", le.getStateInfo());
+                // 同时在session里设置用户信息
+                request.getSession().setAttribute("user", localAuth.getPersonInfo());
+            }
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "用户名和密码均不能为空");
+        }
+        return modelMap;
+    }
 
     @RequestMapping(value = "/bindlocalauth", method = RequestMethod.POST)
     @ResponseBody

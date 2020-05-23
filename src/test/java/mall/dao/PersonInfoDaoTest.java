@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
+import mall.util.SnowIdUtils;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -21,9 +22,11 @@ public class PersonInfoDaoTest extends BaseTest {
 	public void testAInsertPersonInfo() throws Exception {
 		// 设置新增的用户信息
 		PersonInfo personInfo = new PersonInfo();
+		personInfo.setUserId(SnowIdUtils.uniqueLong());
 		personInfo.setName("我爱你");
 		personInfo.setGender("女");
 		personInfo.setUserType(1);
+		personInfo.setProfileImg("");
 		personInfo.setCreateTime(new Date());
 		personInfo.setLastEditTime(new Date());
 		personInfo.setEnableStatus(1);

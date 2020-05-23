@@ -10,6 +10,8 @@ public class LocalAuth {
 
     private Long localAuthId;
 
+    private Long userId;
+
     private String username;
 
     private String password;
@@ -66,5 +68,13 @@ public class LocalAuth {
 
     public void setPersonInfo(PersonInfo personInfo) {
         this.personInfo = personInfo;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

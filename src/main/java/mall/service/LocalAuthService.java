@@ -5,6 +5,11 @@ import mall.entity.LocalAuth;
 import mall.exceptions.LocalAuthOperationException;
 
 public interface LocalAuthService {
+
+
+	LocalAuth getLocalAuthByUsername(String userName);
+
+
 	/**
 	 * 通过帐号和密码获取平台帐号信息
 	 * 
@@ -20,6 +25,8 @@ public interface LocalAuthService {
 	 * @return
 	 */
 	LocalAuth getLocalAuthByUserId(long userId);
+
+	 LocalAuthExecution register(LocalAuth localAuth) throws LocalAuthOperationException ;
 
 	/**
 	 * 绑定微信，生成平台专属的帐号

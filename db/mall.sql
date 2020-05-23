@@ -68,15 +68,13 @@ INSERT INTO `tb_head_line` VALUES ('15', '4', '', '/upload/images/item/headtitle
 DROP TABLE IF EXISTS `tb_local_auth`;
 CREATE TABLE `tb_local_auth` (
   `local_auth_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
+  `user_id` bigint(20)  NOT NULL,
   `username` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   `last_edit_time` datetime DEFAULT NULL,
   PRIMARY KEY (`local_auth_id`),
-  UNIQUE KEY `uk_local_profile` (`username`),
-  KEY `fk_localauth_profile` (`user_id`),
-  CONSTRAINT `fk_localauth_profile` FOREIGN KEY (`user_id`) REFERENCES `tb_person_info` (`user_id`)
+  UNIQUE KEY `uk_local_profile` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -89,23 +87,19 @@ INSERT INTO `tb_local_auth` VALUES ('9', '1', 'test', '555elq65be9q529lq62l52095
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_person_info`;
 CREATE TABLE `tb_person_info` (
-  `user_id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20)  NOT NULL ,
   `name` varchar(32) DEFAULT NULL,
   `profile_img` varchar(1024) DEFAULT NULL,
   `email` varchar(1024) DEFAULT NULL,
-  `gender` varchar(2) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
   `enable_status` int(2) NOT NULL DEFAULT '0' COMMENT '0',
   `user_type` int(2) NOT NULL DEFAULT '1' COMMENT '1',
   `create_time` datetime DEFAULT NULL,
   `last_edit_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of tb_person_info
--- ----------------------------
-INSERT INTO `tb_person_info` VALUES ('1', 'test', '', 'email', '男', '1', '2', '2020-05-16 15:11:39', '2020-05-16 15:11:42');
-INSERT INTO `tb_person_info` VALUES ('3', '我爱你', null, null, '女', '1', '1', '2020-05-16 08:41:21', '2020-05-16 08:41:21');
 
 -- ----------------------------
 -- Table structure for `tb_product`
@@ -216,7 +210,7 @@ INSERT INTO `tb_product_img` VALUES ('6', '/upload/images/item/shop/5/烤生蚝.
 DROP TABLE IF EXISTS `tb_shop`;
 CREATE TABLE `tb_shop` (
   `shop_id` int(10) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(10) NOT NULL COMMENT '店铺创始人',
+  `owner_id` bigint(20) NOT NULL COMMENT '店铺创始人',
   `area_id` int(5) DEFAULT NULL,
   `shop_category_id` int(11) DEFAULT NULL,
   `shop_name` varchar(256) NOT NULL,
@@ -234,8 +228,7 @@ CREATE TABLE `tb_shop` (
   KEY `fk_shop_profile` (`owner_id`),
   KEY `fk_shop_category` (`shop_category_id`),
   CONSTRAINT `fk_shop_area` FOREIGN KEY (`area_id`) REFERENCES `tb_area` (`area_id`),
-  CONSTRAINT `fk_shop_category` FOREIGN KEY (`shop_category_id`) REFERENCES `tb_shop_category` (`shop_category_id`),
-  CONSTRAINT `fk_shop_profile` FOREIGN KEY (`owner_id`) REFERENCES `tb_person_info` (`user_id`)
+  CONSTRAINT `fk_shop_category` FOREIGN KEY (`shop_category_id`) REFERENCES `tb_shop_category` (`shop_category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -296,13 +289,11 @@ INSERT INTO `tb_shop_category` VALUES ('32', '交通工具', '交通工具', '/u
 DROP TABLE IF EXISTS `tb_wechat_auth`;
 CREATE TABLE `tb_wechat_auth` (
   `wechat_auth_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
+  `user_id` bigint(20)  NOT NULL,
   `open_id` varchar(1024) NOT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`wechat_auth_id`),
-  UNIQUE KEY `open_id` (`open_id`),
-  KEY `fk_wechatauth_profile` (`user_id`),
-  CONSTRAINT `fk_wechatauth_profile` FOREIGN KEY (`user_id`) REFERENCES `tb_person_info` (`user_id`)
+  UNIQUE KEY `open_id` (`open_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
