@@ -48,10 +48,13 @@ public class LocalAuthServiceImpl implements LocalAuthService {
         if (localAuth == null ||localAuth.getPersonInfo() == null) {
             return new LocalAuthExecution(LocalAuthStateEnum.NULL_AUTH_INFO);
         }
-        if (StringUtils.isEmpty(localAuth.getUsername())) {
+        if (StringUtils.isEmpty(localAuth.getUsername())||localAuth.getUsername().length()>30) {
             return new LocalAuthExecution(LocalAuthStateEnum.USERNAME_HAS_ERR);
         }
         if (StringUtils.isEmpty(localAuth.getPassword())) {
+            return new LocalAuthExecution(LocalAuthStateEnum.PWD_HAS_ERR);
+        }
+        if (localAuth.getPassword().length()<6||localAuth.getPassword().length()>12) {
             return new LocalAuthExecution(LocalAuthStateEnum.PWD_HAS_ERR);
         }
         // 设置新增的用户信息
