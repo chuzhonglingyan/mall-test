@@ -1,0 +1,2 @@
+2020-04-15 21:50:22.724 [main] ERROR mall.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-04-15 21:51:52.294 [main] ERROR mall.util.ImageUtil - javax.imageio.IIOException: Can't read input file!

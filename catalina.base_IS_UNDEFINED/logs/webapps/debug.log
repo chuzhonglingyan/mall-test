@@ -1,0 +1,6 @@
+2020-05-16 16:41:22.407 [main] DEBUG mall.dao.PersonInfoDao.insertPersonInfo - ==>  Preparing: INSERT INTO tb_person_info(name,gender,email,profile_img,user_type, create_time,last_edit_time,enable_status) VALUES (?,?,?,?, ?,?,?,?) 
+2020-05-16 16:41:22.458 [main] DEBUG mall.dao.PersonInfoDao.insertPersonInfo - ==> Parameters: 我爱你(String), 女(String), null, null, 1(Integer), 2020-05-16 16:41:21.497(Timestamp), 2020-05-16 16:41:21.497(Timestamp), 1(Integer)
+2020-05-16 16:41:22.463 [main] DEBUG mall.dao.PersonInfoDao.insertPersonInfo - <==    Updates: 1
+2020-05-16 16:41:22.484 [main] DEBUG mall.dao.PersonInfoDao.queryPersonInfoById - ==>  Preparing: SELECT user_id, name, gender, email, profile_img, user_type, create_time, last_edit_time, enable_status FROM tb_person_info WHERE user_id = ? 
+2020-05-16 16:41:22.484 [main] DEBUG mall.dao.PersonInfoDao.queryPersonInfoById - ==> Parameters: 1(Long)
+2020-05-16 16:41:22.494 [main] DEBUG mall.dao.PersonInfoDao.queryPersonInfoById - <==      Total: 1
